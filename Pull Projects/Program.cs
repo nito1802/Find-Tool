@@ -1,35 +1,29 @@
-﻿using System.Diagnostics;
-
-namespace Pull_Projects
+﻿namespace Pull_Projects
 {
     internal class Program
     {
         private static void Main()
         {
-            string baseDir = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Main";
-            ExecutePowerShellScript(baseDir);
+            string filePath = @"C:\Users\vvv\Desktop\Istotne\source\Visual Studio\Main\Find Tool\Find Tool\App.xaml.cs";
+            string userName = GetUserNameFromPath(filePath);
+            Console.WriteLine($"User name: {userName}");
         }
 
-        private static void ExecutePowerShellScript(string baseDir)
+        private static string GetUserNameFromPath(string path)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo()
-            {
-                FileName = "powershell.exe",
-                Arguments = $"-NoProfile -ExecutionPolicy Bypass -File \"pull_repos.ps1\" -baseDir \"{baseDir}\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+            // Użycie klasy Path do uzyskania segmentów ścieżki
+            string[] segments = path.Split(Path.DirectorySeparatorChar);
 
-            using (Process process = Process.Start(startInfo))
+            // Szukanie segmentu "Users" i pobieranie kolejnego segmentu jako nazwy użytkownika
+            for (int i = 0; i < segments.Length - 1; i++)
             {
-                process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
-                process.BeginOutputReadLine();
-                process.ErrorDataReceived += (sender, e) => Console.WriteLine($"ERROR: {e.Data}");
-                process.BeginErrorReadLine();
-                process.WaitForExit();
+                if (segments[i].Equals("Users", StringComparison.OrdinalIgnoreCase))
+                {
+                    return segments[i + 1];
+                }
             }
+
+            return null; // Zwróć null, jeśli nie znaleziono segmentu "Users"
         }
     }
 }
