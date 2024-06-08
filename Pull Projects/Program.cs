@@ -1,29 +1,71 @@
-﻿namespace Pull_Projects
+﻿using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Pull_Projects
 {
     internal class Program
     {
         private static void Main()
         {
-            string filePath = @"C:\Users\vvv\Desktop\Istotne\source\Visual Studio\Main\Find Tool\Find Tool\App.xaml.cs";
-            string userName = GetUserNameFromPath(filePath);
-            Console.WriteLine($"User name: {userName}");
-        }
+            var pathMy = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Test\RegexProcessTests\TestProject1\UnitTest1.cs";
+            var contentMy = File.ReadAllLines(pathMy);
 
-        private static string GetUserNameFromPath(string path)
-        {
-            // Użycie klasy Path do uzyskania segmentów ścieżki
-            string[] segments = path.Split(Path.DirectorySeparatorChar);
+            string input = "Assert.AreEqual(\"aaa\", \"bbb\");";
+            var mmm = ConvertToFluentAssertion(input);
 
-            // Szukanie segmentu "Users" i pobieranie kolejnego segmentu jako nazwy użytkownika
-            for (int i = 0; i < segments.Length - 1; i++)
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var line in contentMy)
             {
-                if (segments[i].Equals("Users", StringComparison.OrdinalIgnoreCase))
+                if (!line.Contains("Assert.AreEqual"))
                 {
-                    return segments[i + 1];
+                    stringBuilder.AppendLine(line);
+                }
+                else
+                {
+                    var newLine = ExtractArguments(line);
+                    stringBuilder.AppendLine(newLine);
                 }
             }
 
-            return null; // Zwróć null, jeśli nie znaleziono segmentu "Users"
+            var myContentNew = stringBuilder.ToString();
+            myContentNew = myContentNew.Replace("[TestClass]", string.Empty).Replace("[TestMethod]", "[Fact]");
+
+            File.WriteAllText(pathMy, myContentNew);
+            //Assert.AreEqual
+
+            string baseDir = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Main";
+        }
+
+        private static string ConvertToFluentAssertion(string input)
+        {
+            string pattern = @"Assert\.AreEqual\(""([^""]*)"", ""([^""]*)""\);";
+            Match match = Regex.Match(input, pattern);
+
+            if (match.Success)
+            {
+                string firstValue = match.Groups[1].Value;
+                string secondValue = match.Groups[2].Value;
+
+                return $"{secondValue}.Should().Be({firstValue});";
+            }
+
+            throw new ArgumentException("No match found. Assert.AreEqual");
+        }
+
+        private static string ExtractArguments(string input)
+        {
+            string pattern = @"Assert\.AreEqual\(\s*(?:(?<firstArg>""[^""]*"")|(?<firstArg>[^,]+)),\s*(?:(?<secondArg>""[^""]*"")|(?<secondArg>[^)]+))\s*\);";
+
+            Match match = Regex.Match(input, pattern);
+
+            if (match.Success)
+            {
+                string firstArg = match.Groups["firstArg"].Value.Trim();
+                string secondArg = match.Groups["secondArg"].Value.Trim();
+
+                return $"{secondArg}.Should().Be({firstArg});";
+            }
+            throw new ArgumentException("No match found. Assert.AreEqual");
         }
     }
 }
