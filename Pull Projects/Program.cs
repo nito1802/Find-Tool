@@ -7,6 +7,15 @@ namespace Pull_Projects
     {
         private static void Main()
         {
+            string milliseconds = "102355";
+            string formattedTime = ConvertMillisecondsToTime(milliseconds);
+            Console.WriteLine("Formatted Time: " + formattedTime);  // Output: 00:01:42.355
+
+            // Format Number with Space as Thousand Separator
+            int number = 123545;
+            string formattedNumber = FormatNumberWithSpaces(number);
+            Console.WriteLine("Formatted Number: " + formattedNumber);  // Output: 123 545
+
             var pathMy = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Test\RegexProcessTests\TestProject1\UnitTest1.cs";
             var contentMy = File.ReadAllLines(pathMy);
 
@@ -34,6 +43,22 @@ namespace Pull_Projects
             //Assert.AreEqual
 
             string baseDir = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Main";
+        }
+
+        public static string ConvertMillisecondsToTime(string milliseconds)
+        {
+            long ms = long.Parse(milliseconds);
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(ms);
+            return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D3}",
+                                 timeSpan.Hours,
+                                 timeSpan.Minutes,
+                                 timeSpan.Seconds,
+                                 timeSpan.Milliseconds);
+        }
+
+        public static string FormatNumberWithSpaces(int number)
+        {
+            return number.ToString("N0").Replace(",", " ");
         }
 
         private static string ConvertToFluentAssertion(string input)
