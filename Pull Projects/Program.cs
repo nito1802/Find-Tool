@@ -1,13 +1,43 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace Pull_Projects
 {
+    public class IgnoreByteArrayContractResolver : DefaultContractResolver
+    {
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var properties = base.CreateProperties(type, memberSerialization);
+            // Ignoruj właściwości typu byte[]
+            properties = properties.Where(p => p.PropertyType != typeof(byte[])).ToList();
+            return properties;
+        }
+    }
+
+    public class MyModel
+    {
+        public byte[] Content { get; set; }
+        public byte[] Conten2t { get; set; }
+        public string Name { get; set; }
+    }
+
     internal class Program
     {
         private static void Main()
         {
+            var myModel = new MyModel
+            {
+                Name = "Built With Science 5 Minute Daily Stretch Routine.pdf"
+            };
+
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new IgnoreByteArrayContractResolver(),
+            };
+
+            var serialized = JsonConvert.SerializeObject(myModel, settings);
+
             string xml = @"
         <Textbolds>
             <Textbold>
