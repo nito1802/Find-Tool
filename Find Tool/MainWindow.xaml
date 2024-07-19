@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="Convert Tool"
-        Height="590"
-        Width="800"
+        Title="Find Words Cross Repos"
+        Height="310"
+        Width="600"
         Background="#FF1B1B1B">
     <Window.Resources>
         <Style TargetType="TextBox">
