@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace FindInDocx
 {
@@ -7,6 +8,17 @@ namespace FindInDocx
     {
         private static void Main()
         {
+            string input = "<<doc [DocumentTitleTemplate]>> Dane zlecenia <<doc [OrderDataTemplate] -build>> Dane uczestnika";
+
+            // Wyrażenie regularne do znalezienia wzorców <<cośtam>>
+            string pattern = @"(<<.*?>>)";
+
+            // Podział tekstu na nowe linie
+            string result = Regex.Replace(input, pattern, Environment.NewLine + "$1" + Environment.NewLine);
+
+            // Uporządkowanie tekstu - usunięcie podwójnych nowych linii
+            result = Regex.Replace(result, @"\n\s*\n", Environment.NewLine);
+
             string folderPath = "path/to/your/folder"; // Ścieżka do folderu, w którym szukasz plików
             string searchText = "szukana fraza"; // Fraza, której szukasz
 
