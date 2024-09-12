@@ -1,6 +1,4 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
-using System.Collections.Concurrent;
-using System.Text.RegularExpressions;
 
 namespace FindInDocx
 {
@@ -8,6 +6,44 @@ namespace FindInDocx
     {
         private static void Main()
         {
+            // Ścieżka do folderu "Template" w projekcie WebApi
+            string sourceFolder = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Test\FindInDocx\WebApplication1\Templates\"; // Zmień ścieżkę na właściwą do folderu Template w projekcie WebApi
+
+            // Ścieżka do folderu "TxtTemplates" w projekcie konsolowym
+            string destinationFolder = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Test\FindInDocx\FindInDocx\TxtTemplates\"; // Zmień ścieżkę na właściwą do folderu TxtTemplates w projekcie konsolowym
+
+            // Pobierz wszystkie pliki .docx, w tym zagnieżdżone
+            List<string> docxFiles = Directory.GetFiles(sourceFolder, "*.docx", SearchOption.AllDirectories).ToList();
+
+            // Użycie równoległego przetwarzania do konwersji plików
+            Parallel.ForEach(docxFiles, docxFilePath =>
+            {
+                try
+                {
+                    // Wczytaj zawartość dokumentu Word jako plain text
+                    string plainText = ExtractPlainTextFromWord(docxFilePath);
+
+                    // Zmodyfikuj ścieżkę docelową, aby odwzorować strukturę źródłową
+                    string relativePath = System.IO.Path.GetRelativePath(sourceFolder, docxFilePath);
+                    string txtFilePath = System.IO.Path.Combine(destinationFolder, System.IO.Path.ChangeExtension(relativePath, ".txt"));
+
+                    // Upewnij się, że katalog docelowy istnieje
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(txtFilePath));
+
+                    // Zapisz plain text do pliku .txt
+                    File.WriteAllText(txtFilePath, plainText);
+
+                    Console.WriteLine($"Successfully converted: {docxFilePath} to {txtFilePath}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing {docxFilePath}: {ex.Message}");
+                }
+            });
+
+            Console.WriteLine("Conversion completed.");
+
+            /*
             string input = "<<doc [DocumentTitleTemplate]>> Dane zlecenia <<doc [OrderDataTemplate] -build>> Dane uczestnika";
 
             // Wyrażenie regularne do znalezienia wzorców <<cośtam>>
@@ -59,6 +95,16 @@ namespace FindInDocx
             else
             {
                 Console.WriteLine($"No files found containing the text: {searchText}");
+            }*/
+        }
+
+        // Funkcja do odczytywania plain textu z dokumentu Word
+        private static string ExtractPlainTextFromWord(string filePath)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filePath, false))
+            {
+                // Odczytaj zawartość dokumentu jako plain text
+                return wordDoc.MainDocumentPart.Document.Body.InnerText;
             }
         }
 
