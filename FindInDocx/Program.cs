@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
+using System.Reflection;
 
 namespace FindInDocx
 {
@@ -6,6 +7,18 @@ namespace FindInDocx
     {
         private static void Main()
         {
+            /*
+                        // Pobierz ścieżkę do katalogu, w którym znajduje się uruchamiany plik(assembly)
+                        string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                        // Wyznacz dynamicznie ścieżki do folderów "Templates" i "TxtTemplates"
+                        string sourceFolder = Path.Combine(assemblyDirectory, @"..\..\..\..\WebApplication1\Templates"); // Folder "Templates" w projekcie WebApi
+                        string destinationFolder = Path.Combine(assemblyDirectory, @"TxtTemplates"); // Folder "TxtTemplates" w projekcie konsolowym
+                                                                                                     // Normalizacja ścieżek (zmienia na pełną ścieżkę)
+                        sourceFolder = Path.GetFullPath(sourceFolder);
+
+                        */
+
             // Ścieżka do folderu "Template" w projekcie WebApi
             string sourceFolder = @"C:\Users\dante\Desktop\Istotne\source\Visual Studio\Test\FindInDocx\WebApplication1\Templates\"; // Zmień ścieżkę na właściwą do folderu Template w projekcie WebApi
 
