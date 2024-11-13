@@ -102,6 +102,19 @@ namespace Pull_Projects
             var customerPartNew = JsonConvert.DeserializeObject<CustomerPart>(json, settings);
 
             Console.WriteLine("Hello, World!");
+
+            //var lastExecutions = context.VerificationExecutions
+            //.Where(v => v.Adviser == adviserName && verificationNames.Contains(v.VerificationName))
+            //.GroupBy(v => v.VerificationName)
+            //.Select(g => g.OrderByDescending(v => v.Date).FirstOrDefault())
+            //.ToList();
+
+            //var lastExecutions = context.VerificationExecutions
+            //.Where(v => v.Adviser == adviserName && verificationNames.Contains(v.VerificationName))
+            //.AsEnumerable() // Konwertujemy do Enumerable, aby zastosować logikę konwersji daty na string lokalnie
+            //.GroupBy(v => v.VerificationName)
+            //.Select(g => g.OrderByDescending(v => DateTime.Parse(v.Date)).FirstOrDefault())
+            //.ToList();
         }
     }
 }
