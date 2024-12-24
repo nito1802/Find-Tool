@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Class1.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="pull_repos - deleteLocalBranch.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
