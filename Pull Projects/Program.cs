@@ -3,6 +3,31 @@ using Newtonsoft.Json.Linq;
 
 namespace Pull_Projects
 {
+
+    public class JobHandlerEntity
+    {
+        public Guid Id { get; set; }
+        public string VerificationName { get; set; }
+        public string Status { get; set; }
+        public List<string>? Errors { get; set; }
+
+        // Metoda porównująca błędy dwóch encji
+        public static bool HasSameErrors(JobHandlerEntity e1, JobHandlerEntity e2)
+        {
+            if (e1.Errors == null && e2.Errors == null)
+                return true; // Obie listy błędów są puste
+
+            if (e1.Errors == null || e2.Errors == null)
+                return false; // Jedna z list błędów jest pusta
+
+            var sortedErrors1 = e1.Errors.OrderBy(x => x).ToList();
+            var sortedErrors2 = e2.Errors.OrderBy(x => x).ToList();
+
+            return sortedErrors1.SequenceEqual(sortedErrors2);
+        }
+    }
+
+
     public class CustomerPartConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
