@@ -3,25 +3,35 @@ using Newtonsoft.Json.Linq;
 
 namespace Pull_Projects
 {
+    public enum VerificationErrors
+    {
+        DowodMain,
+        DowodSec,
+        RestrictedMain,
+        RestrictedSec,
+        NameMain,
+        NameSec,
+    }
+
 
     public class JobHandlerEntity
     {
         public Guid Id { get; set; }
         public string VerificationName { get; set; }
         public string Status { get; set; }
-        public List<string>? Errors { get; set; }
+        public List<VerificationErrors>? Errors { get; set; }
 
         // Metoda porównująca błędy dwóch encji
-        public static bool HasSameErrors(JobHandlerEntity e1, JobHandlerEntity e2)
+        public static bool HasSameErrors(List<VerificationErrors>? e1, List<VerificationErrors>? e2)
         {
-            if (e1.Errors == null && e2.Errors == null)
+            if (e1 == null && e2 == null)
                 return true; // Obie listy błędów są puste
 
-            if (e1.Errors == null || e2.Errors == null)
+            if (e1 == null || e2 == null)
                 return false; // Jedna z list błędów jest pusta
 
-            var sortedErrors1 = e1.Errors.OrderBy(x => x).ToList();
-            var sortedErrors2 = e2.Errors.OrderBy(x => x).ToList();
+            var sortedErrors1 = e1.OrderBy(x => x).ToList();
+            var sortedErrors2 = e2.OrderBy(x => x).ToList();
 
             return sortedErrors1.SequenceEqual(sortedErrors2);
         }
