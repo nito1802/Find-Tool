@@ -6,6 +6,22 @@ using System.Threading.Tasks;
 
 namespace Pull_Projects
 {
+    /*
+
+     // Konwerter JSON z użyciem Newtonsoft.Json dla pola Errors
+            modelBuilder.Entity<JobHandlerEntity>()
+                .Property(e => e.Errors)
+                .HasConversion(
+                    new ValueConverter<List<HandlerDto>, string>(
+                        v => JsonConvert.SerializeObject(v, Formatting.None),
+                        v => string.IsNullOrEmpty(v)
+                             ? new List<HandlerDto>()
+                             : JsonConvert.DeserializeObject<List<HandlerDto>>(v)
+                    )
+                );
+
+     */
+
     public static class ListExtensions
     {
         public static List<T> ShiftToFirst<T>(this List<T> list, Func<T, bool> predicate)
