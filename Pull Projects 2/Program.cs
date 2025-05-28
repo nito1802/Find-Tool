@@ -16,14 +16,27 @@ namespace Pull_Projects_2
                     Console.WriteLine($"[{Path.GetFileName(dir)}]");
 
                     // Sprawdź aktualną gałąź
-                    string branch = RunGitCommand("rev-parse --abbrev-ref HEAD", dir);
+                    string branch = RunGitCommand("rev-parse --abbrev-ref HEAD", dir).Trim();
                     Console.WriteLine($"  Branch: {branch}");
+
+                    // Sprawdź lokalne zmiany
+                    string statusOutput = RunGitCommand("status --porcelain", dir);
+                    if (!string.IsNullOrWhiteSpace(statusOutput))
+                    {
+                        Console.WriteLine("  ⚠️  Lokalne niezcommitowane zmiany:");
+                        foreach (var line in statusOutput.Split('\n'))
+                            Console.WriteLine($"    {line.Trim()}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("  ✔️  Brak lokalnych zmian");
+                    }
 
                     // Pull
                     string pullOutput = RunGitCommand("pull", dir);
-                    Console.WriteLine($"  Pull Output:\n{pullOutput}");
+                    Console.WriteLine($"  Pull Output:\n{pullOutput.Trim()}");
 
-                    // Lista zmian (HEAD@{1} to commit sprzed pulla)
+                    // Lista zmian po pullu
                     string changedFiles = RunGitCommand("diff --name-only HEAD@{1} HEAD", dir);
                     if (!string.IsNullOrWhiteSpace(changedFiles))
                     {
