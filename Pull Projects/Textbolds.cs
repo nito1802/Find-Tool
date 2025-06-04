@@ -17,6 +17,14 @@ namespace Pull_Projects
 
 /*
 
+ ||Serwis||alert_status||coverage||duplicated_lines_density||ncloc||bugs||vulnerabilities||code_smells||
+|UserService|!https://sonar.example.com/api/project_badges/measure?project=project_userservice&metric=alert_status&token=xxx|height=20!|...|
+...
+
+ */
+
+/*
+
  // 1. Mock for the scoped service (IDocumentsService)
     var documentsServiceMock = new Mock<IDocumentsService>();
     documentsServiceMock
