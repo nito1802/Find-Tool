@@ -176,3 +176,7 @@ modelBuilder.Entity<VerificationsForProcess>()
     .HasOne(vp => vp.VerificationType)
     .WithMany(v => v.VerificationsForProcess) // jeśli dodasz nawigację również po stronie VerificationType
     .HasForeignKey(vp => vp.VerificationTypeId);
+
+modelBuilder.Entity<ProcessType>()
+    .HasMany(p => p.VerificationTypes)
+    .WithMany(v => v.ProcessTypes)
