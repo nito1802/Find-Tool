@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -162,3 +163,16 @@ public async Task GetVerifications_ShouldReturnCorrectDtos()
     Assert.Contains(dto.Verifications, v => v.Id == "V1");
     Assert.Contains(dto.Verifications, v => v.Id == "V2");
 }
+
+modelBuilder.Entity<VerificationsForProcess>()
+      .HasKey(vp => new { vp.ProcessTypeId, vp.VerificationTypeId });
+
+modelBuilder.Entity<VerificationsForProcess>()
+    .HasOne(vp => vp.ProcessType)
+    .WithMany(p => p.VerificationsForProcess)
+    .HasForeignKey(vp => vp.ProcessTypeId);
+
+modelBuilder.Entity<VerificationsForProcess>()
+    .HasOne(vp => vp.VerificationType)
+    .WithMany(v => v.VerificationsForProcess) // jeśli dodasz nawigację również po stronie VerificationType
+    .HasForeignKey(vp => vp.VerificationTypeId);
