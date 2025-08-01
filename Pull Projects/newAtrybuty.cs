@@ -7,6 +7,22 @@ using System.Threading.Tasks;
 
 namespace Pull_Projects
 {
+    /*
+
+     SELECT
+    DaysCountNEW,
+    CASE
+        WHEN DaysCountNEW IS NULL THEN NULL
+        ELSE CONCAT(
+            DaysCountNEW / 1440, 'd ',
+            (DaysCountNEW % 1440) / 60, 'g ',
+            DaysCountNEW % 60, 'min'
+        )
+    END AS DniGodzMin
+FROM [nito_SomeApps].[HandleryTest].[JobHandlers];
+
+     */
+
     internal class newAtrybuty
     {
         public async Task AddProcessAsync(ProcessDto dto)
