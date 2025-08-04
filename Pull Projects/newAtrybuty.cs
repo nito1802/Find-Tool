@@ -10,13 +10,13 @@ namespace Pull_Projects
     /*
 
      SELECT
-    DaysCountNEW,
+    VerificationTimeInMinutes,
     CASE
-        WHEN DaysCountNEW IS NULL THEN NULL
+        WHEN VerificationTimeInMinutes IS NOT NULL THEN
         ELSE CONCAT(
-            DaysCountNEW / 1440, 'd ',
-            (DaysCountNEW % 1440) / 60, 'g ',
-            DaysCountNEW % 60, 'min'
+            VerificationTimeInMinutes / 1440, 'd ',
+            (VerificationTimeInMinutes % 1440) / 60, 'g ',
+            VerificationTimeInMinutes % 60, 'min'
         )
     END AS DniGodzMin
 FROM [nito_SomeApps].[HandleryTest].[JobHandlers];
