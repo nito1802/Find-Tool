@@ -23,6 +23,22 @@ FROM [nito_SomeApps].[HandleryTest].[JobHandlers];
 
      */
 
+    /*
+
+     using System.Net.Http.Headers;
+
+var client = new HttpClient();
+var token = "abc123"; // wygenerowany token SonarQube
+var byteArray = System.Text.Encoding.ASCII.GetBytes($"{token}:");
+client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+var url = "http://localhost:9000/api/measures/component?component=my-project&metricKeys=coverage,bugs";
+var response = await client.GetStringAsync(url);
+
+Console.WriteLine(response);
+
+     */
+
     internal class newAtrybuty
     {
         public async Task AddProcessAsync(ProcessDto dto)
