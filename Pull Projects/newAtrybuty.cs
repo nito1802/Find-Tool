@@ -49,6 +49,7 @@ Ten tekst będzie w czerwonym panelu.
 
     {color:red}Ten tekst będzie czerwony.{color}
 
+    {color:grey}<small>_ten tekst jest mały i kursywą_</small>{color}
      */
 
     internal class newAtrybuty
