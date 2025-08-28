@@ -39,6 +39,16 @@ Console.WriteLine(response);
 
     <span style="color:white; font-size:10px;">Ukryty biały mały tekst</span>
 
+    {code:title=Przykład w Code Macro|borderStyle=solid|borderColor=#ccc|borderWidth=1px|bgColor=#f0f0f0|color=red}
+Ten tekst będzie czerwony w bloku kodu.
+{code}
+
+   {panel:bgColor=red|borderStyle=solid|borderColor=red|title=Kolorowy panel}
+Ten tekst będzie w czerwonym panelu.
+{panel}
+
+    {color:red}Ten tekst będzie czerwony.{color}
+
      */
 
     internal class newAtrybuty
